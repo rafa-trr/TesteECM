@@ -10,7 +10,7 @@ using ECMWebApi.Models.Repositorio;
 
 namespace ECMWebApi.Controllers
 {
-    [EnableCors(origins: "*", methods: "GET", headers: "*")]
+    [EnableCors(origins: "http://localhost:53894/", methods: "GET", headers: "*")]
     public class ProdutosController : ApiController
     {
         private ProdutosRepositorio _repositorio { get; set; }

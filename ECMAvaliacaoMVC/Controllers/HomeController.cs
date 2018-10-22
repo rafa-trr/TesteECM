@@ -1,30 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using System.Net.Http.Headers;
+using ECMAvaliacaoMVC.Models.Entidades;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace ECMAvaliacaoMVC.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
-        }
+            string ApiBaseUrl = "http://localhost:51181/";
+            string MetodoPath = "api/produtos/";
+            List<Produto> model = new List<Produto>();
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ApiBaseUrl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            return View();
-        }
+                HttpResponseMessage resposta = await client.GetAsync(MetodoPath);
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+                if (resposta.IsSuccessStatusCode)
+                {
+                    var respostaConteudo = resposta.Content.ReadAsStringAsync().Result;
 
-            return View();
+                    model = JsonConvert.DeserializeObject<List<Produto>>(respostaConteudo);
+                }
+            }
+
+            return View(model);            
         }
     }
 }
