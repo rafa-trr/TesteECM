@@ -35,9 +35,9 @@
                     {
                         <tr>
                             <td>@item.Codigo</td>
-                            <td>@item.Nome</td>
+                            <td>@item.Nome.ToUpper()</td>
                             <td>@item.Marca.Nome</td>
-                            <td>@item.Preco</td>
+                            <td>@item.Preco.ToString("c")</td>
                         </tr>
                     }
                 </tbody>

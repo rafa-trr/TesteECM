@@ -52,8 +52,7 @@ namespace ECMWebApi.Controllers
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
-            }
-            
+            }            
         }
     }
 }

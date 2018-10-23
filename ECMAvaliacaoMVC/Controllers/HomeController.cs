@@ -17,6 +17,7 @@ namespace ECMAvaliacaoMVC.Controllers
         {
             string ApiBaseUrl = "http://localhost:51181/";
             string MetodoPath = "api/produtos/";
+            List<Produto> resultado = new List<Produto>();
             List<Produto> model = new List<Produto>();
 
             using (var client = new HttpClient())
@@ -31,7 +32,18 @@ namespace ECMAvaliacaoMVC.Controllers
                 {
                     var respostaConteudo = resposta.Content.ReadAsStringAsync().Result;
 
-                    model = JsonConvert.DeserializeObject<List<Produto>>(respostaConteudo);
+                    resultado = JsonConvert.DeserializeObject<List<Produto>>(respostaConteudo);
+
+                    var query = resultado.GroupBy(e => e.Marca.Codigo)
+                        .Select(e => new { e.Key, preco = e.Min(g => g.Preco) })
+                        .OrderBy(p => p.preco)
+                        .Take(10);
+
+                    foreach (var item in query)
+                    {
+                        Produto prod = resultado.First(p => p.Preco == item.preco && p.Marca.Codigo == item.Key);
+                        model.Add(prod);
+                    }
                 }
             }
 
