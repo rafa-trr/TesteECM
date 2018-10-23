@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using ECMWebApi.Models.Entidades;
-using System.IO;
 using Newtonsoft.Json;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace ECMWebApi.Models.Repositorio
 {
@@ -19,21 +17,28 @@ namespace ECMWebApi.Models.Repositorio
             jsonConteudo = new WebClient().DownloadString(ENDERECO_URL_JSON_FILE);
         }
 
-        public IEnumerable<Produto> GetByTerm(string term)
+        public Task<IEnumerable<Produto>> GetByTermAsync(string term)
         {
-            List<Produto> produtos = JsonConvert.DeserializeObject<List<Produto>>(jsonConteudo);
+            return Task.Run(() =>
+            {
+                List<Produto> produtos = JsonConvert.DeserializeObject<List<Produto>>(jsonConteudo);
 
-            var resultado = produtos.Where(p => p.Nome.ToLower().Contains(term.ToLower()))
-                .Select(p => p);
+                var resultado = produtos.Where(p => p.Nome.ToLower().Contains(term.ToLower()))
+                    .Select(p => p);
 
-            return resultado;
+                return resultado;
+            });
         }
 
-        public IEnumerable<Produto> GetAll()
+        public Task<IEnumerable<Produto>> GetAllAsync()
         {
-            List<Produto> produtos = JsonConvert.DeserializeObject<List<Produto>>(jsonConteudo);
-            
-            return produtos;
+            return Task.Run(() =>
+            {
+                IEnumerable<Produto> produtos = JsonConvert.DeserializeObject<List<Produto>>(jsonConteudo);
+
+                return produtos;
+            });
+
         }
     }
 }

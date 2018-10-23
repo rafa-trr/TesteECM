@@ -1,46 +1,84 @@
 ﻿@model IEnumerable<ECMAvaliacaoMVC.Models.Entidades.Produto>
-    @{
-        ViewBag.Title = "Produtos";
-    }
+@{
+    ViewBag.Title = "Produtos";
+}
 
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Pesquisar produtos</h1>
-            <p class="lead">Digite o nome do produto que deseja pesquisar em nosso catálogo</p>
-        </div>
-        <div class="col-md-12">
-            <div id="div-pesquisa-input">
-                <div class="input-group col-md-12">
-                    <input type="text" class="form-control input-lg" placeholder="Digite" />
-                    <span class="input-group-btn">
-                        <button class="btn btn-info btn-lg" type="button">
-                            <i class="glyphicon glyphicon-search"></i>
-                        </button>
-                    </span>
-                </div>
+<div class="row">
+    <div class="col-md-12">
+        <h1>Pesquisar produtos</h1>
+        <p class="lead">Digite o nome do produto que deseja pesquisar em nosso catálogo</p>
+    </div>
+    <div class="col-md-12">
+        <div id="div-pesquisa-input">
+            <div class="input-group col-md-12">
+                <input type="text" id="inputPesquisa" name="inputPesquisa" class="form-control input-lg" placeholder="Digite" />
+                <span class="input-group-btn">
+                    <button id="botaoPesquisa" class="btn btn-info btn-lg" type="button">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </span>
             </div>
         </div>
-        <div class="col-md-12">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Cód.</th>
-                        <th>Nome</th>
-                        <th>Marca</th>
-                        <th>Preço</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.Codigo</td>
-                            <td>@item.Nome.ToUpper()</td>
-                            <td>@item.Marca.Nome</td>
-                            <td>@item.Preco.ToString("c")</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
     </div>
+    <div class="col-md-12">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th style="width: 20%;">Cód.</th>
+                    <th style="width: 30%;">Nome</th>
+                    <th style="width: 30%;">Marca</th>
+                    <th style="width: 20%;">Preço</th>
+                </tr>
+            </thead>
+            <tbody id="resultado">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Codigo</td>
+                        <td>@item.Nome.ToUpper()</td>
+                        <td>@item.Marca.Nome</td>
+                        <td>@item.Preco.ToString("c")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#inputPesquisa').keypress(function () {
+            if ($(this).val().length > 2) {
+                envia($(this).val());
+            }
+        });
+        $('#botaoPesquisa').on('click', function () {
+            envia($('#inputPesquisa').val());
+        });
+    });
+
+    function envia(termo) {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "http://localhost:51181/api/produtos/" + termo,
+            async: true,
+            success: function (resultado) {
+                $('#resultado').empty();
+                if (resultado.length == 0) {
+                    $('#resultado').html("<tr><td colspan='4' style='text-align: center;'><i>Nenhum produto encontrado.</td></tr>");
+                }
+                else {
+                    $.each(resultado, function (index, value) {
+                        $('#resultado').append("<tr>" +
+                            "<td>" + value.Codigo + "</td>" +
+                            "<td>" + value.Nome.toUpperCase() + "</td>" +
+                            "<td>" + value.Marca.Nome + "</td>" +
+                            "<td>R$ " + value.Preco.toString().replace(".", ",") + "</td>" +
+                        "</tr>");
+                    });
+                }
+            }
+        });;
+    }
+</script>
