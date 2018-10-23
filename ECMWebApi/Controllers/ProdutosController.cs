@@ -25,9 +25,35 @@ namespace ECMWebApi.Controllers
 
         // GET api/produtos/xxx
         [Route("api/produtos/{term}")]
-        public IEnumerable<Produto> Get(string term)
+        public HttpResponseMessage Get(string term)
         {
-            return _repositorio.GetByTerm(term);
+            IEnumerable<Produto> produtos = new List<Produto>();
+            try
+            {
+                produtos = _repositorio.GetByTerm(term);
+                return Request.CreateResponse(HttpStatusCode.OK, produtos);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+
+        // GET api/produtos/
+        [Route("api/produtos")]
+        public HttpResponseMessage Get()
+        {
+            try
+            {
+                IEnumerable<Produto> produtos = _repositorio.GetAll();
+
+                return Request.CreateResponse(HttpStatusCode.OK, produtos);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+            
         }
     }
 }

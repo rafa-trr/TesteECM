@@ -21,9 +21,26 @@
             </div>
         </div>
         <div class="col-md-12">
-            @foreach (var item in Model)
-            {
-
-            }
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Cód.</th>
+                        <th>Nome</th>
+                        <th>Marca</th>
+                        <th>Preço</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Codigo</td>
+                            <td>@item.Nome</td>
+                            <td>@item.Marca.Nome</td>
+                            <td>@item.Preco</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>

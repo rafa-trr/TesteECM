@@ -28,5 +28,12 @@ namespace ECMWebApi.Models.Repositorio
 
             return resultado;
         }
+
+        public IEnumerable<Produto> GetAll()
+        {
+            List<Produto> produtos = JsonConvert.DeserializeObject<List<Produto>>(jsonConteudo);
+
+            return produtos;
+        }
     }
 }
