@@ -6,7 +6,9 @@
 <div class="row">
     <div class="col-md-12">
         <h1>Pesquisar produtos</h1>
-        <p class="lead">Digite o nome do produto que deseja pesquisar em nosso catálogo</p>
+        <p class="lead">Digite o nome do produto que deseja pesquisar em nosso catálogo
+        <span class="glyphicon glyphicon-exclamation-sign" style="cursor: pointer;" title="Para pesquisar com menos de 3 caracteres, aperte ENTER ou clique na lupa"></span>
+        </p>
     </div>
 @using (Html.BeginForm("", "", FormMethod.Get))
 {
@@ -47,6 +49,40 @@
     </div>
 }
 </div>
+
+<style type="text/css">
+    #div-pesquisa-input {
+        padding: 3px;
+        border: solid 1px #E4E4E4;
+        border-radius: 6px;
+        background-color: #fff;
+    }
+
+        #div-pesquisa-input input {
+            border: 0;
+            box-shadow: none;
+        }
+
+        #div-pesquisa-input button {
+            margin: 2px 0 0 0;
+            background: none;
+            box-shadow: none;
+            border: 0;
+            color: #666666;
+            padding: 0 8px 0 10px;
+            border-left: solid 1px #ccc;
+        }
+
+            #div-pesquisa-input button:hover {
+                border: 0;
+                box-shadow: none;
+                border-left: solid 1px #ccc;
+            }
+
+        #div-pesquisa-input .glyphicon-search {
+            font-size: 23px;
+        }
+</style>
 
 <script>
     $(document).ready(function () {
@@ -91,37 +127,3 @@
         });;
     }
 </script>
-
-<style type="text/css">
-#div-pesquisa-input{
-    padding: 3px;
-    border: solid 1px #E4E4E4;
-    border-radius: 6px;
-    background-color: #fff;
-}
-
-#div-pesquisa-input input{
-    border: 0;
-    box-shadow: none;
-}
-
-#div-pesquisa-input button{
-    margin: 2px 0 0 0;
-    background: none;
-    box-shadow: none;
-    border: 0;
-    color: #666666;
-    padding: 0 8px 0 10px;
-    border-left: solid 1px #ccc;
-}
-
-#div-pesquisa-input button:hover{
-    border: 0;
-    box-shadow: none;
-    border-left: solid 1px #ccc;
-}
-
-#div-pesquisa-input .glyphicon-search{
-    font-size: 23px;
-}
-</style>
