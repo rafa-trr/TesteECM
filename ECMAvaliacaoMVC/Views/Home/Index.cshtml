@@ -11,9 +11,10 @@
     <div class="col-md-12">
         <div id="div-pesquisa-input">
             <div class="input-group col-md-12">
-                <input type="text" id="inputPesquisa" name="inputPesquisa" class="form-control input-lg" placeholder="Digite" />
+                @Html.TextBox("inputPesquisa", null, new { @class = "form-control input-lg", placeholder = "Digite" })
+                @*<input type="text" id="inputPesquisa" name="inputPesquisa" class="form-control input-lg" placeholder="Digite" />*@
                 <span class="input-group-btn">
-                    <button id="botaoPesquisa" class="btn btn-info btn-lg" type="button">
+                    <button id="botaoPesquisa" class="btn btn-info btn-lg" type="button" title="Pesquisar">
                         <i class="glyphicon glyphicon-search"></i>
                     </button>
                 </span>
@@ -21,7 +22,7 @@
         </div>
     </div>
     <div class="col-md-12">
-        <table class="table table-condensed">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th style="width: 20%;">Cód.</th>
@@ -66,7 +67,7 @@
             success: function (resultado) {
                 $('#resultado').empty();
                 if (resultado.length == 0) {
-                    $('#resultado').html("<tr><td colspan='4' style='text-align: center;'><i>Nenhum produto encontrado.</td></tr>");
+                    $('#resultado').html("<tr><td colspan='4' style='text-align: center;'><i>Nenhum produto encontrado.</i></td></tr>");
                 }
                 else {
                     $.each(resultado, function (index, value) {
@@ -82,3 +83,37 @@
         });;
     }
 </script>
+
+<style type="text/css">
+#div-pesquisa-input{
+    padding: 3px;
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+#div-pesquisa-input input{
+    border: 0;
+    box-shadow: none;
+}
+
+#div-pesquisa-input button{
+    margin: 2px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+    border-left: solid 1px #ccc;
+}
+
+#div-pesquisa-input button:hover{
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+#div-pesquisa-input .glyphicon-search{
+    font-size: 23px;
+}
+</style>

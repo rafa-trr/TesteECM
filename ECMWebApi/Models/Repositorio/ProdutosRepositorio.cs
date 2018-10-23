@@ -11,7 +11,7 @@ namespace ECMWebApi.Models.Repositorio
 {
     public class ProdutosRepositorio
     {
-        private const string ENDERECO_URL_JSON_FILE = "http://www.json-generator.com/api/json/get/cehnqHymle?indent=0";
+        // endereço da fonte de dados em json indentado http://www.json-generator.com/api/json/get/cehnqHymle?indent=2
         private string jsonConteudo { get; set; }
 
         public ProdutosRepositorio()

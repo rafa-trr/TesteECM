@@ -13,15 +13,7 @@ namespace ECMWebApi.Controllers
     [EnableCors(origins: "http://localhost:53894", methods: "GET", headers: "*")]
     public class ProdutosController : ApiController
     {
-        private ProdutosRepositorio _repositorio { get; set; }
-
-        public ProdutosController()
-        {
-            if (_repositorio == null)
-            {
-                _repositorio = new ProdutosRepositorio();
-            }
-        }
+        private readonly ProdutosRepositorio _repositorio = new ProdutosRepositorio();
 
         // GET api/produtos/xxx
         [Route("api/produtos/{term}")]
