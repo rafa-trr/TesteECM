@@ -55,6 +55,12 @@
                 envia($(this).val());
             }
         });
+        $('#inputPesquisa').keypress(function (e) {
+            if (e.which == 13) {
+                e.preventDefault();
+                envia($(this).val());
+            }
+        });
         $('#botaoPesquisa').on('click', function () {
             envia($('#inputPesquisa').val());
         });
