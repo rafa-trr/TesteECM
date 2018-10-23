@@ -8,11 +8,12 @@
         <h1>Pesquisar produtos</h1>
         <p class="lead">Digite o nome do produto que deseja pesquisar em nosso catálogo</p>
     </div>
+@using (Html.BeginForm("", "", FormMethod.Get))
+{
     <div class="col-md-12">
         <div id="div-pesquisa-input">
             <div class="input-group col-md-12">
                 @Html.TextBox("inputPesquisa", null, new { @class = "form-control input-lg", placeholder = "Digite" })
-                @*<input type="text" id="inputPesquisa" name="inputPesquisa" class="form-control input-lg" placeholder="Digite" />*@
                 <span class="input-group-btn">
                     <button id="botaoPesquisa" class="btn btn-info btn-lg" type="button" title="Pesquisar">
                         <i class="glyphicon glyphicon-search"></i>
@@ -31,7 +32,7 @@
                     <th style="width: 20%;">Preço</th>
                 </tr>
             </thead>
-            <tbody id="resultado">
+            <tbody id="resultadoTable">
                 @foreach (var item in Model)
                 {
                     <tr>
@@ -44,6 +45,7 @@
             </tbody>
         </table>
     </div>
+}
 </div>
 
 <script>
@@ -65,13 +67,13 @@
             url: "http://localhost:51181/api/produtos/" + termo,
             async: true,
             success: function (resultado) {
-                $('#resultado').empty();
+                $('#resultadoTable').empty();
                 if (resultado.length == 0) {
-                    $('#resultado').html("<tr><td colspan='4' style='text-align: center;'><i>Nenhum produto encontrado.</i></td></tr>");
+                    $('#resultadoTable').html("<tr><td colspan='4' style='text-align: center;'><i>Nenhum produto encontrado.</i></td></tr>");
                 }
                 else {
                     $.each(resultado, function (index, value) {
-                        $('#resultado').append("<tr>" +
+                        $('#resultadoTable').append("<tr>" +
                             "<td>" + value.Codigo + "</td>" +
                             "<td>" + value.Nome.toUpperCase() + "</td>" +
                             "<td>" + value.Marca.Nome + "</td>" +
