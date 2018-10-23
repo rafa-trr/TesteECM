@@ -4,6 +4,8 @@ using ECMWebApi.Models.Entidades;
 using Newtonsoft.Json;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
+using System.IO;
 
 namespace ECMWebApi.Models.Repositorio
 {
@@ -14,7 +16,8 @@ namespace ECMWebApi.Models.Repositorio
 
         public ProdutosRepositorio()
         {
-            jsonConteudo = new WebClient().DownloadString(ENDERECO_URL_JSON_FILE);
+            string path = HttpContext.Current.Server.MapPath("~/App_Data/produtos.json");
+            jsonConteudo = File.ReadAllText(path);
         }
 
         public Task<IEnumerable<Produto>> GetByTermAsync(string term)

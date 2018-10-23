@@ -47,7 +47,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#inputPesquisa').keypress(function () {
+        $('#inputPesquisa').keyup(function () {
             if ($(this).val().length > 2) {
                 envia($(this).val());
             }
