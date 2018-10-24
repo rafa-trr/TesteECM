@@ -19,31 +19,39 @@ namespace ECMAvaliacaoMVC.Controllers
             List<Produto> resultado = new List<Produto>();
             List<Produto> model = new List<Produto>();
 
-            using (var client = new HttpClient())
+            try
             {
-                client.BaseAddress = new Uri(ApiBaseUrl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage resposta = await client.GetAsync(MetodoPath);
-
-                if (resposta.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    var respostaConteudo = resposta.Content.ReadAsStringAsync().Result;
+                    client.BaseAddress = new Uri(ApiBaseUrl);
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    resultado = JsonConvert.DeserializeObject<List<Produto>>(respostaConteudo);
+                    HttpResponseMessage resposta = await client.GetAsync(MetodoPath);
 
-                    var query = resultado.GroupBy(e => e.Marca.Codigo)
-                        .Select(e => new { e.Key, preco = e.Min(g => g.Preco) })
-                        .OrderBy(p => p.preco)
-                        .Take(10);
-
-                    foreach (var item in query)
+                    if (resposta.IsSuccessStatusCode)
                     {
-                        Produto prod = resultado.First(p => p.Preco == item.preco && p.Marca.Codigo == item.Key);
-                        model.Add(prod);
+                        var respostaConteudo = resposta.Content.ReadAsStringAsync().Result;
+
+                        resultado = JsonConvert.DeserializeObject<List<Produto>>(respostaConteudo);
+
+                        var query = resultado.GroupBy(e => e.Marca.Codigo)
+                            .Select(e => new { e.Key, preco = e.Min(g => g.Preco) })
+                            .OrderBy(p => p.preco)
+                            .Take(10);
+
+                        foreach (var item in query)
+                        {
+                            Produto prod = resultado.First(p => p.Preco == item.preco && p.Marca.Codigo == item.Key);
+                            model.Add(prod);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                ViewData["MsgErro"] = "Nao foi possível estabelecer conexão com a API.";
+                return View(model);
             }
 
             return View(model);            

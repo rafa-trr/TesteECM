@@ -2,7 +2,10 @@
 @{
     ViewBag.Title = "Produtos";
 }
-
+@if (ViewData["MsgErro"] != null)
+{
+    <div class="alert alert-danger"><strong>Erro! </strong>@ViewData["MsgErro"]</div>
+}
 <div class="row">
     <div class="col-md-12">
         <h1>Pesquisar produtos</h1>
@@ -10,11 +13,11 @@
         <span class="glyphicon glyphicon-exclamation-sign" style="cursor: pointer;" title="Para pesquisar com menos de 3 caracteres, aperte ENTER ou clique na lupa"></span>
         </p>
     </div>
-@using (Html.BeginForm("", "", FormMethod.Get))
+@using (Html.BeginForm("", "", FormMethod.Get, new { @class = "form-inline" }))
 {
     <div class="col-md-12">
         <div id="div-pesquisa-input">
-            <div class="input-group col-md-12">
+            <div class="input-group col-md-12 col-sm-12">
                 @Html.TextBox("inputPesquisa", null, new { @class = "form-control input-lg", placeholder = "Digite" })
                 <span class="input-group-btn">
                     <button id="botaoPesquisa" class="btn btn-info btn-lg" type="button" title="Pesquisar">
@@ -28,10 +31,10 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th style="width: 20%;">Cód.</th>
-                    <th style="width: 30%;">Nome</th>
-                    <th style="width: 30%;">Marca</th>
-                    <th style="width: 20%;">Preço</th>
+                    <th style="width: 20%;" scope="col">Cód.</th>
+                    <th style="width: 30%;" scope="col">Nome</th>
+                    <th style="width: 30%;" scope="col">Marca</th>
+                    <th style="width: 20%;" scope="col">Preço</th>
                 </tr>
             </thead>
             <tbody id="resultadoTable">
