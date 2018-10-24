@@ -97,7 +97,9 @@
         $('#inputPesquisa').keypress(function (e) {
             if (e.which == 13) {
                 e.preventDefault();
-                envia($(this).val());
+                if ($(this).val().length > 0) {
+                    envia($(this).val());
+                }
             }
         });
         $('#botaoPesquisa').on('click', function () {
